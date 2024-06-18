@@ -7,11 +7,7 @@ const _layout = () => {
   const optionsConfig = (Icon: ElementType, name: string) =>
     ({
       tabBarIcon: ({ focused }: { focused: boolean }) => (
-        <Icon
-          name={name}
-          size={28}
-          color={focused ? Colors.main[500] : Colors.main[950]}
-        />
+        <Icon name={name} size={28} color={focused ? Colors.main[500] : Colors.main[900]} />
       ),
       title: "",
       tabBarItemStyle: {
@@ -21,7 +17,7 @@ const _layout = () => {
         height: 64,
         alignItems: "center",
         backgroundColor: "black",
-        borderTopWidth:0,
+        borderTopWidth: 0,
       },
     } as any);
 
@@ -32,16 +28,10 @@ const _layout = () => {
       }}
     >
       <Tabs.Screen name="index" options={optionsConfig(Ionicons, "home")} />
-      <Tabs.Screen
-        name="personajes"
-        options={optionsConfig(Ionicons, "people")}
-      />
+      <Tabs.Screen name="personajes" options={optionsConfig(Ionicons, "people")} />
       <Tabs.Screen name="momentos" options={optionsConfig(Ionicons, "star")} />
       <Tabs.Screen name="mi-vida" options={optionsConfig(Ionicons, "body")} />
-      <Tabs.Screen
-        name="contratame"
-        options={optionsConfig(Ionicons, "cash")}
-      />
+      <Tabs.Screen name="contratame" options={optionsConfig(Ionicons, "cash")} />
     </Tabs>
   );
 };

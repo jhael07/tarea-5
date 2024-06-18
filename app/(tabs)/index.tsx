@@ -1,41 +1,41 @@
-import {
-  View,
-  Text,
-  Image,
-  FlatList,
-  TouchableOpacity,
-  Dimensions,
-} from "react-native";
+import { View, Image, FlatList, Dimensions, Text, StyleSheet } from "react-native";
 import React, { useRef, useState } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import { Stack } from "expo-router";
-import { Entypo } from "@expo/vector-icons";
+import CarouselButton from "@/components/Home/CarouselButton";
+import { useFonts } from "expo-font";
 
 const index = () => {
+  const [fontsLoaded, fontError] = useFonts({
+    Main: require("../../assets/SairaCondensed-ExtraBold.ttf"),
+  });
+
+  console.log(fontsLoaded, fontError);
+
   const ref = useRef<any>();
 
-  const images: string[] = [
-    "https://c4.wallpaperflare.com/wallpaper/270/151/624/breaking-bad-actors-bryan-cranston-walter-white-men-with-glasses-2992x4016-animals-horses-hd-art-wallpaper-preview.jpg",
-    "https://wallpaper.forfun.com/fetch/f7/f77716eb42425677360b05cadd8f45fd.jpeg?h=900&r=0.5",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNHFvdXWgW0W_otEQxcXRMVRcebYaa5E3GEw&s",
-    "https://wallpapers.com/images/hd/breaking-bad-jesse-and-walter-w996h9ea1qgbqf33.jpg",
+  const images: { img: string; phrase: string }[] = [
+    {
+      img: "https://c4.wallpaperflare.com/wallpaper/270/151/624/breaking-bad-actors-bryan-cranston-walter-white-men-with-glasses-2992x4016-animals-horses-hd-art-wallpaper-preview.jpg",
+      phrase: "Tú conoces el negocio, y yo conozco la química",
+    },
+    {
+      img: "https://64.media.tumblr.com/1a0bc41b0a8adbc25bf20d225a24e732/tumblr_n4n7hb8kwu1szeb38o1_1280.jpg",
+      phrase: "Estoy en el negocio del imperio.",
+    },
+    {
+      img: "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/1f2e3247-62d6-4d91-8b66-596cdde4d62b/dfn34kv-b80f3446-1c0e-4995-b3ed-3d3e9e1c5451.jpg/v1/fit/w_828,h_1794,q_70,strp/breaking_bad_wallpaper_for_iphone_by_v_mozz_by_v_mozz_dfn34kv-414w-2x.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NzIwOSIsInBhdGgiOiJcL2ZcLzFmMmUzMjQ3LTYyZDYtNGQ5MS04YjY2LTU5NmNkZGU0ZDYyYlwvZGZuMzRrdi1iODBmMzQ0Ni0xYzBlLTQ5OTUtYjNlZC0zZDNlOWUxYzU0NTEuanBnIiwid2lkdGgiOiI8PTMzMjkifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6aW1hZ2Uub3BlcmF0aW9ucyJdfQ.2kvqX2PBAJSR-hn0dd_vzTzL1eyF1VhBXFMYcHFLv-o",
+      phrase: "Terminamos cuando yo digo que terminamos.",
+    },
+    {
+      img: "https://wallpapers.com/images/hd/breaking-bad-jesse-and-walter-w996h9ea1qgbqf33.jpg",
+      phrase: "No estoy en peligro, Skyler. Yo soy el peligro.",
+    },
   ];
 
-  const [imagesArr, setImagesArr] = useState<string[]>(images);
-
   const scrollToIndex = (index: number) => {
-    if (index === -1) {
-      return;
-    }
-    if (index >= imagesArr.length) {
-      setImagesArr((prev) => [...prev, ...images]);
-      ref?.current?.scrollToIndex({
-        animated: true,
-        index: 0,
-      });
-      return;
-    }
+    if (index === -1) return;
+    if (index >= images.length) return;
 
     ref?.current?.scrollToIndex({
       animated: true,
@@ -57,9 +57,9 @@ const index = () => {
           showsHorizontalScrollIndicator={false}
           scrollEnabled={false}
           showsVerticalScrollIndicator={false}
-          onEndReached={() => setImagesArr((prev) => [...prev, ...images])}
+          initialNumToRender={4}
           onEndReachedThreshold={0}
-          data={imagesArr}
+          data={images}
           ref={ref}
           horizontal
           renderItem={({ item, index }) => {
@@ -69,52 +69,15 @@ const index = () => {
                   height={900}
                   width={Dimensions.get("screen").width}
                   source={{
-                    uri: item,
+                    uri: item.img,
                   }}
                   resizeMode="cover"
                 />
-                <View
-                  style={{
-                    position: "absolute",
-                    left: 12,
-                    top: Dimensions.get("screen").height / 2.1,
-                  }}
-                >
-                  <TouchableOpacity
-                    style={{
-                      backgroundColor: "#000000",
-                      opacity: 0.7,
-                      padding: 10,
-                      borderRadius: 100,
-                      borderColor: "lightgray",
-                      borderWidth: 1,
-                    }}
-                    onPress={() => scrollToIndex(index - 1)}
-                  >
-                    <Entypo name="chevron-left" size={32} color="white" />
-                  </TouchableOpacity>
+                <View style={style.containerText}>
+                  <Text style={style.text}>{item.phrase}</Text>
                 </View>
-                <View
-                  style={{
-                    position: "absolute",
-                    right: 12,
-                    top: Dimensions.get("screen").height / 2.1,
-                  }}
-                >
-                  <TouchableOpacity
-                    style={{
-                      backgroundColor: "#000000",
-                      opacity: 0.7,
-                      padding: 10,
-                      borderRadius: 100,
-                      borderColor: "lightgray",
-                      borderWidth: 1,
-                    }}
-                    onPress={() => scrollToIndex(index + 1)}
-                  >
-                    <Entypo name="chevron-right" size={32} color="white" />
-                  </TouchableOpacity>
-                </View>
+                <CarouselButton type="left" onPress={() => scrollToIndex(index - 1)} />
+                <CarouselButton type="right" onPress={() => scrollToIndex(index + 1)} />
               </>
             );
           }}
@@ -125,3 +88,24 @@ const index = () => {
 };
 
 export default index;
+
+const style = StyleSheet.create({
+  containerText: {
+    position: "absolute",
+    bottom: 120,
+    left: Dimensions.get("screen").width / 12,
+    opacity: 0.8,
+    paddingHorizontal: 24,
+    paddingVertical: 8,
+    backgroundColor: "#000000",
+    maxWidth: Dimensions.get("screen").width / 1.2,
+    minWidth: Dimensions.get("screen").width / 1.2,
+    borderRadius: 16,
+  },
+  text: {
+    color: "white",
+    fontWeight: "600",
+    fontSize: 36,
+    fontFamily: "Main",
+  },
+});
