@@ -1,70 +1,127 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  FlatList,
+  TouchableOpacity,
+  Dimensions,
+} from "react-native";
+import React, { useRef, useState } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { StatusBar } from "expo-status-bar";
+import { Stack } from "expo-router";
+import { Entypo } from "@expo/vector-icons";
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+const index = () => {
+  const ref = useRef<any>();
 
-export default function HomeScreen() {
+  const images: string[] = [
+    "https://c4.wallpaperflare.com/wallpaper/270/151/624/breaking-bad-actors-bryan-cranston-walter-white-men-with-glasses-2992x4016-animals-horses-hd-art-wallpaper-preview.jpg",
+    "https://wallpaper.forfun.com/fetch/f7/f77716eb42425677360b05cadd8f45fd.jpeg?h=900&r=0.5",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNHFvdXWgW0W_otEQxcXRMVRcebYaa5E3GEw&s",
+    "https://wallpapers.com/images/hd/breaking-bad-jesse-and-walter-w996h9ea1qgbqf33.jpg",
+  ];
+
+  const [imagesArr, setImagesArr] = useState<string[]>(images);
+
+  const scrollToIndex = (index: number) => {
+    if (index === -1) {
+      return;
+    }
+    if (index >= imagesArr.length) {
+      setImagesArr((prev) => [...prev, ...images]);
+      ref?.current?.scrollToIndex({
+        animated: true,
+        index: 0,
+      });
+      return;
+    }
+
+    ref?.current?.scrollToIndex({
+      animated: true,
+      index: index,
+    });
+  };
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
+    <View>
+      <StatusBar style="light" />
+      <Stack.Screen
+        options={{
+          headerTransparent: true,
+          statusBarTranslucent: true,
+        }}
+      />
+      <View style={{ width: "100%", height: "100%", position: "relative" }}>
+        <FlatList
+          showsHorizontalScrollIndicator={false}
+          scrollEnabled={false}
+          showsVerticalScrollIndicator={false}
+          onEndReached={() => setImagesArr((prev) => [...prev, ...images])}
+          onEndReachedThreshold={0}
+          data={imagesArr}
+          ref={ref}
+          horizontal
+          renderItem={({ item, index }) => {
+            return (
+              <>
+                <Image
+                  height={900}
+                  width={Dimensions.get("screen").width}
+                  source={{
+                    uri: item,
+                  }}
+                  resizeMode="cover"
+                />
+                <View
+                  style={{
+                    position: "absolute",
+                    left: 12,
+                    top: Dimensions.get("screen").height / 2.1,
+                  }}
+                >
+                  <TouchableOpacity
+                    style={{
+                      backgroundColor: "#000000",
+                      opacity: 0.7,
+                      padding: 10,
+                      borderRadius: 100,
+                      borderColor: "lightgray",
+                      borderWidth: 1,
+                    }}
+                    onPress={() => scrollToIndex(index - 1)}
+                  >
+                    <Entypo name="chevron-left" size={32} color="white" />
+                  </TouchableOpacity>
+                </View>
+                <View
+                  style={{
+                    position: "absolute",
+                    right: 12,
+                    top: Dimensions.get("screen").height / 2.1,
+                  }}
+                >
+                  <TouchableOpacity
+                    style={{
+                      backgroundColor: "#000000",
+                      opacity: 0.7,
+                      padding: 10,
+                      borderRadius: 100,
+                      borderColor: "lightgray",
+                      borderWidth: 1,
+                    }}
+                    onPress={() => scrollToIndex(index + 1)}
+                  >
+                    <Entypo name="chevron-right" size={32} color="white" />
+                  </TouchableOpacity>
+                </View>
+              </>
+            );
+          }}
         />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({ ios: 'cmd + d', android: 'cmd + m' })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+      </View>
+    </View>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
-});
+export default index;
