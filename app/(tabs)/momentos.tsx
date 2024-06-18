@@ -1,11 +1,12 @@
-import { View, Text } from "react-native";
+import { View, Text, SafeAreaView } from "react-native";
 import React from "react";
+import CustomHeader from "@/components/CustomHeader";
 
 const index = () => {
   return (
-    <View>
-      <Text>index</Text>
-    </View>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#000000" }}>
+      <CustomHeader title="Momentos" />
+    </SafeAreaView>
   );
 };
 

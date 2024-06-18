@@ -7,7 +7,7 @@ const _layout = () => {
   const optionsConfig = (Icon: ElementType, name: string) =>
     ({
       tabBarIcon: ({ focused }: { focused: boolean }) => (
-        <Icon name={name} size={28} color={focused ? Colors.main[500] : Colors.main[900]} />
+        <Icon name={name} size={28} color={focused ? Colors.main[500] : Colors.main[950]} />
       ),
       title: "",
       tabBarItemStyle: {

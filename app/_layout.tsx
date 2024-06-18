@@ -1,16 +1,15 @@
 import { Stack } from "expo-router";
-import { useFonts } from "expo-font";
-import * as SplashScreen from "expo-splash-screen";
-
-SplashScreen.preventAutoHideAsync();
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const page = () => {
   return (
-    <Stack
-      screenOptions={{
-        headerShown: false,
-      }}
-    />
+    <GestureHandlerRootView>
+      <Stack
+        screenOptions={{
+          headerShown: false,
+        }}
+      />
+    </GestureHandlerRootView>
   );
 };
 

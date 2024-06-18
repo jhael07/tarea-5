@@ -7,10 +7,8 @@ import { useFonts } from "expo-font";
 
 const index = () => {
   const [fontsLoaded, fontError] = useFonts({
-    Main: require("../../assets/SairaCondensed-ExtraBold.ttf"),
+    Main: require("../../assets/SairaCondensed-Bold.ttf"),
   });
-
-  console.log(fontsLoaded, fontError);
 
   const ref = useRef<any>();
 
@@ -74,10 +72,23 @@ const index = () => {
                   resizeMode="cover"
                 />
                 <View style={style.containerText}>
-                  <Text style={style.text}>{item.phrase}</Text>
+                  <Text
+                    style={[
+                      style.text,
+                      {
+                        fontFamily: "Main",
+                      },
+                    ]}
+                  >
+                    {item.phrase}
+                  </Text>
                 </View>
-                <CarouselButton type="left" onPress={() => scrollToIndex(index - 1)} />
-                <CarouselButton type="right" onPress={() => scrollToIndex(index + 1)} />
+                {index - 1 > -1 && (
+                  <CarouselButton type="left" onPress={() => scrollToIndex(index - 1)} />
+                )}
+                {index + 1 < images.length && (
+                  <CarouselButton type="right" onPress={() => scrollToIndex(index + 1)} />
+                )}
               </>
             );
           }}
@@ -106,6 +117,5 @@ const style = StyleSheet.create({
     color: "white",
     fontWeight: "600",
     fontSize: 36,
-    fontFamily: "Main",
   },
 });
