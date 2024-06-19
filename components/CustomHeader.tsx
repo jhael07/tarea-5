@@ -9,7 +9,6 @@ const CustomHeader = ({ title }: { title: string }) => {
         width: Dimensions.get("screen")?.width,
         backgroundColor: "#000000",
         borderBottomColor: Colors.main[950],
-        borderBottomWidth: 0.8,
         padding: 20,
         paddingTop: 52,
       }}

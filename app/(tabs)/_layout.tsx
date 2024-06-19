@@ -1,13 +1,12 @@
 import React, { ElementType } from "react";
 import { Tabs } from "expo-router";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, Entypo } from "@expo/vector-icons";
 import { Colors } from "@/constants/Colors";
-
 const _layout = () => {
   const optionsConfig = (Icon: ElementType, name: string) =>
     ({
       tabBarIcon: ({ focused }: { focused: boolean }) => (
-        <Icon name={name} size={28} color={focused ? Colors.main[500] : Colors.main[950]} />
+        <Icon name={name} size={28} color={focused ? Colors.main[500] : Colors.main[700]} />
       ),
       title: "",
       tabBarItemStyle: {
@@ -30,6 +29,7 @@ const _layout = () => {
       <Tabs.Screen name="index" options={optionsConfig(Ionicons, "home")} />
       <Tabs.Screen name="personajes" options={optionsConfig(Ionicons, "people")} />
       <Tabs.Screen name="momentos" options={optionsConfig(Ionicons, "star")} />
+      <Tabs.Screen name="acerca-de" options={optionsConfig(Entypo, "info-with-circle")} />
       <Tabs.Screen name="mi-vida" options={optionsConfig(Ionicons, "body")} />
       <Tabs.Screen name="contratame" options={optionsConfig(Ionicons, "cash")} />
     </Tabs>
