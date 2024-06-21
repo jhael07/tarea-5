@@ -37,7 +37,8 @@ const view = () => {
     },
     {
       id: 3,
-      picture: "https://i.pinimg.com/736x/f7/06/a2/f706a27070d658ffbd14fb3b79009a23.jpg",
+      picture:
+        "https://i.pinimg.com/736x/f7/06/a2/f706a27070d658ffbd14fb3b79009a23.jpg",
       name: "Gustavo Fring",
       description: `Carismático y reservado, utiliza su restaurante Los Pollos Hermanos como fachada para su operación de metanfetaminas, manteniendo una doble vida impecable y letal`,
     },
@@ -58,7 +59,14 @@ const view = () => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#000000" }}>
       <CustomHeader title="Personajes" />
-      <View style={{ height: 42, alignItems: "center", justifyContent: "center", marginTop: 24 }}>
+      <View
+        style={{
+          height: 42,
+          alignItems: "center",
+          justifyContent: "center",
+          marginTop: 24,
+        }}
+      >
         <FlatList
           data={[
             { name: "Walter White", id: 1 },
@@ -80,7 +88,9 @@ const view = () => {
                   padding: 4,
                   paddingHorizontal: 12,
                   backgroundColor:
-                    characterSelected === item.id ? Colors.secondary[500] : Colors.main[800],
+                    characterSelected === item.id
+                      ? Colors.secondary[500]
+                      : Colors.main[800],
                   borderRadius: 16,
                   alignItems: "center",
                   justifyContent: "center",
@@ -110,16 +120,30 @@ const view = () => {
               <Image
                 width={360}
                 height={420}
-                style={{ alignSelf: "center", marginTop: 24, borderRadius: 16, overflow: "hidden" }}
+                style={{
+                  alignSelf: "center",
+                  marginTop: 24,
+                  borderRadius: 16,
+                  overflow: "hidden",
+                }}
                 resizeMode="cover"
                 source={{
                   uri: item.picture,
                 }}
               />
               <View style={{ paddingHorizontal: 24, marginTop: 16, gap: 12 }}>
-                <Text style={{ fontSize: 48, fontWeight: "500", color: "white" }}>{item.name}</Text>
                 <Text
-                  style={{ color: "white", textAlign: "justify", fontSize: 16, lineHeight: 28 }}
+                  style={{ fontSize: 32, fontWeight: "500", color: "white" }}
+                >
+                  {item.name}
+                </Text>
+                <Text
+                  style={{
+                    color: "white",
+                    textAlign: "justify",
+                    fontSize: 16,
+                    lineHeight: 24,
+                  }}
                 >
                   {item.description}
                 </Text>

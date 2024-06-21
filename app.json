@@ -38,6 +38,13 @@
             "./assets/SairaCondensed-ExtraBold.ttf"
           ]
         }
+      ],
+      "expo-video",
+      [
+        "expo-av",
+        {
+          "microphonePermission": "Allow Movie App to access your microphone."
+        }
       ]
     ],
     "experiments": {
